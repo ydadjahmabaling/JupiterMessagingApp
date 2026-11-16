@@ -1,0 +1,20 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+spring:
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:jupiter}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8&createDatabaseIfNotExist=true
+    username: ${DB_USER:jupiter}
+    password: ${DB_PASSWORD:jupiter_pw}
+  jpa:
+    hibernate:
+      ddl-auto: update        # tables are created automatically on first start
+    open-in-view: false
+jupiter:
+  jwt:
+    secret: ${JWT_SECRET:jupiter-dev-secret-change-me-please-0123456789}
+    expiration-hours: 168
+  auth:
+    verify-new-devices: ${VERIFY_NEW_DEVICES:false}   # true = demand an email code on every unknown device
+  demo-invite: JUPITER1

@@ -1,0 +1,26 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: jupiter-mysql
+    restart: unless-stopped
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pw
+      MYSQL_DATABASE: jupiter
+      MYSQL_USER: jupiter
+      MYSQL_PASSWORD: jupiter_pw
+    ports: ["3306:3306"]
+    volumes: [jupiter_mysql_data:/var/lib/mysql]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_pw"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  adminer:            # optional web DB browser -> http://localhost:8081
+    image: adminer
+    container_name: jupiter-adminer
+    restart: unless-stopped
+    ports: ["8081:8080"]
+    depends_on: [mysql]
+volumes:
+  jupiter_mysql_data:
